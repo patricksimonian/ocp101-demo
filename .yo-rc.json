@@ -45,6 +45,13 @@
               "namespace": "ocp101a-dev"
             }
           }
+        },
+        ".": {
+          "jenkinsJobName": "demo-app",
+          "github_owner": "patricksimonian",
+          "github_repo": "ocp101-demo",
+          "jenkinsFilePath": "Jenkinsfile",
+          "uuid": "8be4c028-42e4-4311-8842-46830cd4d2d3"
         }
       }
     }
