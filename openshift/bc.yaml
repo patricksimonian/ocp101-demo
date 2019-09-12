@@ -1,60 +1,53 @@
+kind: Template
 apiVersion: v1
-items:
-- apiVersion: image.openshift.io/v1
-  kind: ImageStream
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewBuild
-    creationTimestamp: null
-    labels:
-      build: ocp101-demo
-      app: simple-server
-    name: ocp101-demo
-  spec:
-    lookupPolicy:
-      local: false
-  status:
-    dockerImageRepository: ""
-- apiVersion: build.openshift.io/v1
-  kind: BuildConfig
-  metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewBuild
-    creationTimestamp: null
-    labels:
-      build: ocp101-demo
-      app: simple-server
-    name: ocp101-demo
-  spec:
-    nodeSelector: null
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ocp101-demo:latest
-    postCommit: {}
-    resources: {}
-    source:
-      git:
-        uri: https://github.com/patricksimonian/ocp101-demo
-      type: Git
-    strategy:
-      sourceStrategy:
-        from:
+objects:
+  - apiVersion: image.openshift.io/v1
+    kind: ImageStream
+    spec:
+      lookupPolicy:
+        local: false
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewBuild
+      labels:
+        build: ocp101-demo
+        app: simple-server
+      name: ocp101-demo
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    spec:
+      nodeSelector: null
+      output:
+        to:
           kind: ImageStreamTag
-          name: nodejs:10
-          namespace: openshift
-      type: Source
-    triggers:
-    - github:
-        secret: Ft5L2Hkiezz-fIsemnKD
-      type: GitHub
-    - generic:
-        secret: XU0lDg-Fl3FGjYQDhlOl
-      type: Generic
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
-  status:
-    lastVersion: 0
-kind: List
-metadata: {}
+          name: 'ocp101-demo:latest'
+      postCommit: {}
+      resources: {}
+      source:
+        git:
+          uri: 'https://github.com/patricksimonian/ocp101-demo'
+        type: Git
+      strategy:
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: 'nodejs:10'
+            namespace: openshift
+        type: Source
+      triggers:
+        - github:
+            secret: Ft5L2Hkiezz-fIsemnKD
+          type: GitHub
+        - generic:
+            secret: XU0lDg-Fl3FGjYQDhlOl
+          type: Generic
+        - type: ConfigChange
+        - imageChange: {}
+          type: ImageChange
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewBuild
+      labels:
+        build: ocp101-demo
+        app: simple-server
+      name: ocp101-demo
