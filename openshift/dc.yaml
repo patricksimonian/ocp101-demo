@@ -77,7 +77,7 @@ objects:
         openshift.io/generated-by: OpenShiftNewApp
       labels:
         app: ocp101-demo
-      name: ocp101-demo
+      name: ocp101-demo-${SUFFIX}
   - apiVersion: route.openshift.io/v1
     kind: Route
     spec:
@@ -86,12 +86,12 @@ objects:
         targetPort: 8080-tcp
       to:
         kind: ''
-        name: ocp101-demo
+        name: ocp101-demo-${SUFFIX}
         weight: null
     metadata:
       labels:
         app: ocp101-demo
-      name: ocp101-demo
+      name: ocp101-demo-${SUFFIX}
   - apiVersion: v1
     kind: Service
     spec:
@@ -112,4 +112,8 @@ objects:
         openshift.io/generated-by: OpenShiftNewApp
       labels:
         app: ocp101-demo
-      name: ocp101-demo
+      name: ocp101-demo-${SUFFIX}
+parameters:
+- name: SUFFIX
+  description: identifies each deployment
+  value: 'foo'
