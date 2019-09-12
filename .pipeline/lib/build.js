@@ -13,7 +13,7 @@ module.exports = (settings)=>{
   objects = objects.concat(
     oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/bc.yaml`, {
       param: {
-        CHANGE_ID: phases[phase].tag,
+        CHANGE_ID: phases[phase].changeId,
       },
     }),
   );
