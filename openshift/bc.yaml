@@ -11,7 +11,7 @@ objects:
         openshift.io/generated-by: OpenShiftNewBuild
       labels:
         build: ocp101-demo
-        app: simple-server
+        app: simple-server-${CHANGE_ID}
       name: ocp101-demo
   - apiVersion: build.openshift.io/v1
     kind: BuildConfig
@@ -20,7 +20,7 @@ objects:
       output:
         to:
           kind: ImageStreamTag
-          name: 'ocp101-demo:latest'
+          name: 'ocp101-demo:pr-${CHANGE_ID}'
       postCommit: {}
       resources: {}
       source:
@@ -51,3 +51,7 @@ objects:
         build: ocp101-demo
         app: simple-server
       name: ocp101-demo
+parameters:
+- name: CHANGE_ID
+  description: the pr number
+  value: '0'

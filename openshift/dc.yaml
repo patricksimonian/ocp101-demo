@@ -1,39 +1,7 @@
 kind: Template
 apiVersion: v1
 objects:
-  - apiVersion: image.openshift.io/v1
-    generation: 0
-    image:
-      dockerImageLayers: null
-      dockerImageMetadata:
-        ContainerConfig: {}
-        Created: null
-        Id: ''
-        apiVersion: '1.0'
-        kind: DockerImage
-      dockerImageMetadataVersion: '1.0'
-      metadata:
-        creationTimestamp: null
-    kind: ImageStreamTag
-    lookupPolicy:
-      local: false
-    tag:
-      annotations: null
-      from:
-        kind: DockerImage
-        name: 'docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:latest'
-      generation: null
-      importPolicy: {}
-      name: latest
-      referencePolicy:
-        type: ''
-    metadata:
-      annotations:
-        openshift.io/generated-by: OpenShiftNewApp
-        openshift.io/imported-from: 'docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:latest'
-      labels:
-        app: ocp101-demo
-      name: 'ocp101-demo:latest'
+
   - apiVersion: apps.openshift.io/v1
     kind: DeploymentConfig
     spec:
@@ -54,7 +22,7 @@ objects:
         spec:
           containers:
             - image: >-
-                docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:latest
+                docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:${CHANGE_ID}
               name: ocp101-demo
               ports:
                 - containerPort: 8080
@@ -69,7 +37,7 @@ objects:
               - ocp101-demo
             from:
               kind: ImageStreamTag
-              name: 'ocp101-demo:latest'
+              name: 'ocp101-demo:${CHANGE_ID}'
               namespace: ocp101a-tools
           type: ImageChange
     metadata:
@@ -77,7 +45,7 @@ objects:
         openshift.io/generated-by: OpenShiftNewApp
       labels:
         app: ocp101-demo
-      name: ocp101-demo
+      name: ocp101-demo-${SUFFIX}
   - apiVersion: route.openshift.io/v1
     kind: Route
     spec:
@@ -86,12 +54,12 @@ objects:
         targetPort: 8080-tcp
       to:
         kind: ''
-        name: ocp101-demo
+        name: ocp101-demo-${SUFFIX}
         weight: null
     metadata:
       labels:
         app: ocp101-demo
-      name: ocp101-demo
+      name: ocp101-demo-${SUFFIX}
   - apiVersion: v1
     kind: Service
     spec:
@@ -112,4 +80,11 @@ objects:
         openshift.io/generated-by: OpenShiftNewApp
       labels:
         app: ocp101-demo
-      name: ocp101-demo
+      name: ocp101-demo-${SUFFIX}
+parameters:
+- name: SUFFIX
+  description: identifies each deployment
+  value: 'foo'
+- name: CHANGE_ID
+  description: the pr number
+  value: '0'
