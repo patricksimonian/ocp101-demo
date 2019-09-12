@@ -26,6 +26,25 @@
           "github_repo": "ocp101-demo",
           "jenkinsFilePath": ".jenkins/Jenkinsfile",
           "uuid": "00bb7a2a-c486-40b7-a564-ca4d751f5e56"
+        },
+        "ocp101-demo": {
+          "name": "ocp101-demo",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "ocp101a-tools"
+            },
+            "dev": {
+              "namespace": "ocp101a-dev"
+            },
+            "test": {
+              "namespace": "ocp101a-dev"
+            },
+            "prod": {
+              "namespace": "ocp101a-dev"
+            }
+          }
         }
       }
     }
