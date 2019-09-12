@@ -69,7 +69,7 @@ objects:
               - ocp101-demo
             from:
               kind: ImageStreamTag
-              name: 'ocp101-demo:latest'
+              name: 'ocp101-demo:${CHANGE_ID}'
               namespace: ocp101a-tools
           type: ImageChange
     metadata:
@@ -117,3 +117,6 @@ parameters:
 - name: SUFFIX
   description: identifies each deployment
   value: 'foo'
+- name: CHANGE_ID
+  description: the pr number
+  value: '0'
