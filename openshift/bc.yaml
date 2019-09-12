@@ -23,6 +23,7 @@ items:
     creationTimestamp: null
     labels:
       build: ocp101-demo
+      app: simple-server
     name: ocp101-demo
   spec:
     nodeSelector: null

@@ -1,0 +1,134 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  generation: 0
+  image:
+    dockerImageLayers: null
+    dockerImageMetadata:
+      ContainerConfig: {}
+      Created: null
+      Id: ""
+      apiVersion: "1.0"
+      kind: DockerImage
+    dockerImageMetadataVersion: "1.0"
+    metadata:
+      creationTimestamp: null
+  kind: ImageStreamTag
+  lookupPolicy:
+    local: false
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/imported-from: docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:latest
+    creationTimestamp: null
+    labels:
+      app: ocp101-demo
+    name: ocp101-demo:latest
+  tag:
+    annotations: null
+    from:
+      kind: DockerImage
+      name: docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:latest
+    generation: null
+    importPolicy: {}
+    name: latest
+    referencePolicy:
+      type: ""
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: ocp101-demo
+    name: ocp101-demo
+  spec:
+    replicas: 1
+    selector:
+      app: ocp101-demo
+      deploymentconfig: ocp101-demo
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: ocp101-demo
+          deploymentconfig: ocp101-demo
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:latest
+          name: ocp101-demo
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ocp101-demo
+        from:
+          kind: ImageStreamTag
+          name: ocp101-demo:latest
+          namespace: ocp101a-tools
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: ocp101-demo
+    name: ocp101-demo
+  spec:
+    host: ""
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: ""
+      name: ocp101-demo
+      weight: null
+  status:
+    ingress: null
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"ocp101-demo"},"name":"ocp101-demo","namespace":"ocp101a-dev"},"spec":{"ports":[{"name":"8080-tcp","port":8080,"protocol":"TCP","targetPort":8080}],"selector":{"app":"ocp101-demo","deploymentconfig":"ocp101-demo"}},"status":{"loadBalancer":{}}}
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-09-12T20:35:45Z
+    labels:
+      app: ocp101-demo
+    name: ocp101-demo
+    namespace: ocp101a-dev
+    resourceVersion: "958525348"
+    selfLink: /api/v1/namespaces/ocp101a-dev/services/ocp101-demo
+    uid: e5a39355-d59c-11e9-b639-0050568348cc
+  spec:
+    clusterIP: 172.50.205.157
+    ports:
+    - name: 8080-tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: ocp101-demo
+      deploymentconfig: ocp101-demo
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
