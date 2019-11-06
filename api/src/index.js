@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import config from '../config/index.json';
-import faker from 'faker';
 import axios from 'axios';
 import { SERVER_HEALTHY } from './constants/strings.js';
 
@@ -25,21 +25,25 @@ const corsOptions = {
   }
 }
 
+app.use(bodyParser.json());
+
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
   res.send(SERVER_HEALTHY);
 });
 
-app.use(cors(corsOptions));
 
 app.get('/joke', async (req, res) => {
-  const data = await axios.get('https://icanhazdadjoke.com', {
+  const response = await axios.get('https://icanhazdadjoke.com', {
     headers: {
       'User-Agent': 'bcgov hello world application (https://github.com/patricksimonian/hello-world-express-react)',
+      Accept: 'application/json'
     }
   });
+  console.log('fetching joke', response.data);
   res.status(200).json({
-    joke: data.joke
+    joke: response.data.joke
   });
 });
 
