@@ -1,0 +1,40 @@
+{
+  "name": "ocp101-demo-api",
+  "version": "1.0.0",
+  "description": "API for ocp101 demo",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec babel-node -- src/index.js",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patricksimonian/ocp101-demo.git"
+  },
+  "author": "Patrick Simonian",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/patricksimonian/ocp101-demo/issues"
+  },
+  "homepage": "https://github.com/patricksimonian/ocp101-demo#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "faker": "^4.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.3",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.4"
+  }
+}
