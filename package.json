@@ -1,0 +1,23 @@
+{
+  "name": "ocp101-demo",
+  "version": "1.0.0",
+  "description": "## Micro services in this Repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patricksimonian/ocp101-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patricksimonian/ocp101-demo/issues"
+  },
+  "homepage": "https://github.com/patricksimonian/ocp101-demo#readme",
+  "devDependencies": {
+    "@bcgov/generator-bcdk": "0.0.3-2"
+  }
+}
