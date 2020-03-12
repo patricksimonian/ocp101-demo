@@ -1,0 +1,41 @@
+kind: Template
+apiVersion: v1
+parameters:
+  - name: OUTPUT_TAG
+    required: true
+    default: dev
+    description: the output image tag
+objects:
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    spec:
+      failedBuildsHistoryLimit: 5
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: 'ocp101-demo:${OUTPUT_TAG}'
+      postCommit: {}
+      resources: {}
+      runPolicy: Serial
+      source:
+        contextDir: api
+        git:
+          uri: 'https://github.com/patricksimonian/ocp101-demo'
+        type: Git
+      strategy:
+        sourceStrategy:
+          from:
+            kind: ImageStreamTag
+            name: 'nodejs:10'
+            namespace: openshift
+        type: Source
+      successfulBuildsHistoryLimit: 5
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewBuild
+      labels:
+        app: ocp-demo
+        version: ${OUTPUT_TAG}
+        build: ocp101-demo
+      name: ocp101-demo
