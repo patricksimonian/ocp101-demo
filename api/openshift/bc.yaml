@@ -1,0 +1,58 @@
+kind: Template
+apiVersion: v1
+objects:
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    spec:
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${NAME}:${SUFFIX}
+      postCommit: {}
+      resources: {}
+      source:
+        contextDir: api
+        git:
+          uri: ${SOURCE_REPOSITORY_URL}
+        type: Git
+      strategy:
+        sourceStrategy:
+          env:
+          - name: BUILD_TIME_API_KEY
+            value: ${BUILD_TIME_API_KEY}
+          from:
+            kind: ImageStreamTag
+            name: 'nodejs:10'
+            namespace: openshift
+        type: Source
+      triggers:
+        - type: ConfigChange
+        - imageChange: {}
+          type: ImageChange
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewBuild
+      labels:
+        build: ${NAME}-${SUFFIX}
+      name: ${NAME}-${SUFFIX}
+parameters:
+- description: A name used for all objects
+  displayName: Name
+  name: NAME
+  required: true
+  value: jons-app
+- description: A name suffix used for all objects
+  displayName: Suffix
+  name: SUFFIX
+  required: false
+  value: -dev
+- description: SOURCE_REPOSITORY_URL
+  displayName: SOURCE_REPOSITORY_URL
+  name: SOURCE_REPOSITORY_URL
+  required: true
+  value: https://github.com/cvarjao-o/devhub-app-web.git
+- description: something needed on build time
+  displayName: build time api key
+  name: BUILD_TIME_API_KEY
+  required: true

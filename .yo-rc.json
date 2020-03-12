@@ -1,0 +1,30 @@
+{
+  "@bcgov/generator-bcdk": {
+    "promptValues": {
+      "modules": {
+        "jenkins": {
+          "path": ".jenkins",
+          "name": "jenkins",
+          "namespace": "zswelr-tools",
+          "version": "1.0.0",
+          "environments": {
+            "build": {
+              "namespace": "zswelr-tools"
+            },
+            "dev": {
+              "namespace": "zswelr-tools"
+            },
+            "prod": {
+              "namespace": "zswelr-tools"
+            }
+          },
+          "jenkinsJobName": "_jenkins",
+          "github_owner": "patricksimonian",
+          "github_repo": "ocp101-demo",
+          "jenkinsFilePath": ".jenkins/Jenkinsfile",
+          "uuid": "cd494e5d-6719-4659-9c27-e2a2d72e3fa8"
+        }
+      }
+    }
+  }
+}
