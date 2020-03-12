@@ -31,11 +31,23 @@ objects:
             namespace: openshift
         type: Source
       successfulBuildsHistoryLimit: 5
+      triggers:
+        - github:
+            secret: ULEVoQqv-ZVwEk3JHOKv
+          type: GitHub
+        - generic:
+            secret: lzJAAYPvTe2DGG5AhJPS
+          type: Generic
+        - type: ConfigChange
+        - imageChange:
+            lastTriggeredImageID: >-
+              docker-registry.default.svc:5000/openshift/nodejs@sha256:91002d434b585df0262f0350fe91dac9adb3e56d6b9ccfea47ac91064f4513b7
+          type: ImageChange
     metadata:
       annotations:
         openshift.io/generated-by: OpenShiftNewBuild
       labels:
-        app: ocp-demo
-        version: ${OUTPUT_TAG}
         build: ocp101-demo
+        app: ocp101-demo
+        version: ${OUTPUT_TAG}
       name: ocp101-demo
