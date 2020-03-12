@@ -1,0 +1,89 @@
+kind: Template
+apiVersion: v1
+parameters:
+  - name: OUTPUT_TAG
+    required: true
+    default: dev
+    description: the output image tag
+objects:
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    spec:
+      replicas: 1
+      selector:
+        app: ocp101-demo-${OUTPUT_TAG}
+        deploymentconfig: ocp101-demo
+      strategy:
+        resources: {}
+      template:
+        metadata:
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
+          creationTimestamp: null
+          labels:
+            app: ocp101-demo-${OUTPUT_TAG}
+            deploymentconfig: ocp101-demo
+        spec:
+          containers:
+            - image: >-
+                docker-registry.default.svc:5000/ocp101a-tools/ocp101-demo:${OUTPUT_TAG}
+              name: ocp101-demo
+              ports:
+                - containerPort: 3000
+                  protocol: TCP
+              resources: {}
+      test: false
+      triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - ocp101-demo
+            from:
+              kind: ImageStreamTag
+              name: 'ocp101-demo:${OUTPUT_TAG}'
+              namespace: ocp101a-tools
+          type: ImageChange
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        app: ocp101-demo-${OUTPUT_TAG}
+        version: ${OUTPUT_TAG}
+      name: ocp101-demo-${OUTPUT_TAG}
+  - apiVersion: v1
+    kind: Service
+    spec:
+      ports:
+        - name: web
+          port: 3000
+          protocol: TCP
+          targetPort: 3000
+      selector:
+        app: ocp101-demo-${OUTPUT_TAG}
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        app: ocp101-demo-${OUTPUT_TAG}
+        version: ${OUTPUT_TAG}
+      name: ocp101-demo-${OUTPUT_TAG}
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      annotations:
+        openshift.io/host.generated: "true"
+      labels:
+        app: ocp101-demo-${OUTPUT_TAG}
+        version: ${OUTPUT_TAG}
+      name: ocp101-demo-${OUTPUT_TAG}
+      namespace: ocp101a-dev
+    spec:
+      host: 
+      port:
+        targetPort: 3000
+      to:
+        kind: Service
+        name: ocp101-demo-${OUTPUT_TAG}
+        weight: 100
+      wildcardPolicy: None
