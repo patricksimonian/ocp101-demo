@@ -72,3 +72,5 @@ yarn-error.log
 cypress/integration/examples
 cypress/**/videos
 cypress/**/snapshots
+
+dist/
