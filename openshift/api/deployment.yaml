@@ -66,6 +66,25 @@ objects:
       labels:
         app: ${NAME}
       name: ${NAME}
+
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ${NAME}
+      name: ${NAME}
+    spec:
+      host: ""
+      port:
+        targetPort: mattdamon
+      to:
+        kind: ""
+        name: ${NAME}
+        weight: null
+    status:
+      ingress: null
+    
 parameters:
   - name: NAME
     value: ocp101-demo
