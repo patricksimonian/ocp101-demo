@@ -35,7 +35,7 @@ objects:
       contextDir: api
       git:
         ref: ${GIT_BRANCH}
-        uri: https://github.com/patricksimonian/${NAME}
+        uri: https://github.com/patricksimonian/ocp101-demo
       type: Git
     strategy:
       sourceStrategy:
