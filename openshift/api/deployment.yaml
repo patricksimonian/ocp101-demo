@@ -1,0 +1,81 @@
+kind: Template
+apiVersion: v1
+objects:
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    spec:
+      replicas: 3
+      selector:
+        app: ${NAME}
+        deploymentconfig: ${NAME}
+      strategy:
+        resources: {}
+      template:
+        metadata:
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
+          creationTimestamp: null
+          labels:
+            app: ${NAME}
+            deploymentconfig: ${NAME}
+        spec:
+          containers:
+            - image: ${IMAGE_NAME}:${IMAGE_TAG}
+              name: ${IMAGE_NAME}
+              env:
+                - name: port
+                  value: ${PORT}
+                - name: coolestpersonever
+                  value: mattdamon
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              resources: {}
+      test: false
+      triggers:
+        - type: ConfigChange
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - ${IMAGE_NAME}
+            from:
+              kind: ImageStreamTag
+              name: '${IMAGE_NAME}:${IMAGE_TAG}'
+              namespace: pltfrm-tools
+          type: ImageChange
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        app: ${NAME}
+      name: ${NAME}
+  - apiVersion: v1
+    kind: Service
+    spec:
+      ports:
+        - name: mattdamon
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+      selector:
+        app: ${NAME}
+        deploymentconfig: ${NAME}
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        app: ${NAME}
+      name: ${NAME}
+parameters:
+  - name: NAME
+    value: ocp101-demo
+    description: Name of the infrastructure
+  - name: IMAGE_TAG
+    value: dev
+    description: the output image tag for ocp101 demo 
+  - name: IMAGE_NAME
+    value: ocp101-demo
+    description: the output image tag for ocp101 demo 
+  - name: PORT
+    value: "8080"
+    description: the app port
