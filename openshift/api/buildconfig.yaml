@@ -8,7 +8,7 @@ objects:
     creationTimestamp: null
     labels:
       build: ${NAME}
-    name: ${NAME}
+    name: ${IMAGE_NAME}
   spec:
     lookupPolicy:
       local: false
